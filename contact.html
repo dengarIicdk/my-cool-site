@@ -10,29 +10,34 @@
             --bg: #020205;
         }
 
-        /* Стили для навигации сверху */
+        /* Навигация фиксирована сверху и не мешает центру */
         .top-nav {
-            position: absolute;
-            top: 20px;
+            position: fixed;
+            top: 30px;
             left: 0;
             width: 100%;
             text-align: center;
-            z-index: 500;
+            z-index: 1000;
         }
 
         .top-nav a {
             color: #444;
             text-decoration: none;
-            font-size: 12px;
-            margin: 0 10px;
-            border: none;
+            font-size: 11px;
+            margin: 0 15px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            border: none !important; /* Убираем нижнюю черту для навигации */
         }
 
         .top-nav a:hover {
             color: var(--blue);
             text-shadow: 0 0 10px var(--blue);
+        }
+
+        .top-nav a.active {
+            color: var(--red);
         }
 
         body {
@@ -45,7 +50,6 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            position: relative; /* Чтобы навигация позиционировалась относительно тела */
         }
 
         #loader {
@@ -67,15 +71,10 @@
             transition: 0.4s;
         }
 
-        #loader.active {
-            opacity: 1 !important;
-            pointer-events: all;
-        }
+        #loader.active { opacity: 1 !important; pointer-events: all; }
+        #loader.active .bar { transform: scaleX(1); }
 
-        #loader.active .bar {
-            transform: scaleX(1);
-        }
-
+        /* Основной бокс */
         .box {
             border: 1px solid var(--red);
             padding: 35px;
@@ -83,7 +82,7 @@
             box-shadow: 0 0 30px rgba(255, 49, 49, 0.1);
             width: 350px;
             text-align: center;
-            z-index: 10; /* Чтобы бокс был над фоном */
+            position: relative;
         }
 
         .qr-frame {
@@ -97,10 +96,7 @@
             overflow: hidden;
         }
 
-        .qr-frame img {
-            width: 100%;
-            display: block;
-        }
+        .qr-frame img { width: 100%; display: block; }
 
         .qr-frame::after {
             content: "";
@@ -149,17 +145,24 @@
             border-color: var(--red);
             text-shadow: 0 0 8px var(--red);
         }
+
+        .back-link {
+            font-size: 10px; 
+            color: #444; 
+            border: none !important;
+            margin-top: 25px;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Навигация теперь внутри специального блока -->
-    <div class="top-nav">
+    <nav class="top-nav">
         <a href="index.html">Главная</a>
         <a href="projects.html">Проекты</a>
         <a href="skin_changer.html">Скин Чейнджер</a>
-        <a href="contact.html" style="color: var(--red); border-bottom: 1px solid var(--red);">Контакты</a>
-    </div>
+        <a href="contact.html" class="active">Контакты</a>
+    </nav>
 
     <div id="loader"><div class="bar"></div></div>
 
@@ -177,26 +180,25 @@
         <span class="label">Mobile Comm</span>
         <a href="tel:+79800704800">+7 (980) 070-48-00</a>
 
-        <div style="margin-top:25px;">
-            <a href="index.html" style="font-size:10px; color:#444; border:none;">[ BACK_TO_CORE ]</a>
+        <div>
+            <a href="index.html" class="back-link">[ BACK_TO_CORE ]</a>
         </div>
     </div>
 
     <script>
-        // Скрытие лоадера при загрузке
         window.onload = () => setTimeout(() => document.getElementById('loader').style.opacity = '0', 200);
 
-        // Плавный переход для всех ссылок навигации
-        document.querySelectorAll('.top-nav a, a[href="index.html"]').forEach(link => {
+        // Плавный переход для вкладок
+        document.querySelectorAll('.top-nav a, .back-link').forEach(link => {
             link.onclick = (e) => {
-                const target = link.getAttribute('href');
-                if (target.startsWith('http') || target.startsWith('mailto') || target.startsWith('tel')) return;
-                
-                e.preventDefault();
-                const l = document.getElementById('loader');
-                l.style.opacity = '1'; 
-                l.classList.add('active');
-                setTimeout(() => location.href = target, 500);
+                const href = link.getAttribute('href');
+                if (href.includes('index') || href.includes('projects') || href.includes('skin_changer') || href.includes('contact')) {
+                    e.preventDefault();
+                    const l = document.getElementById('loader');
+                    l.style.opacity = '1'; 
+                    l.classList.add('active');
+                    setTimeout(() => location.href = href, 500);
+                }
             }
         });
     </script>
