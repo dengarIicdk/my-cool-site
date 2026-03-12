@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ICDK // ARCHIVE</title>
+    <style>
+        :root {
+            --pink: #ff0055;
+            --blue: #00f2ff;
+            --bg: #050508;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: monospace;
+            margin: 0;
+            padding-top: 80px;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            transition: 0.5s;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--blue);
+            transform: scaleX(0);
+            transition: 0.4s;
+            transform-origin: right;
+        }
+
+        #loader.active {
+            opacity: 1 !important;
+            pointer-events: all;
+        }
+
+            #loader.active .bar {
+                transform: scaleX(1);
+            }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            border-bottom: 1px solid #111;
+            background: rgba(5,5,8,0.95);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 5000;
+        }
+
+            nav a {
+                text-decoration: none;
+                color: var(--blue);
+                font-weight: bold;
+                letter-spacing: 2px;
+                text-shadow: 0 0 8px var(--blue);
+                cursor: pointer;
+            }
+
+        .container {
+            max-width: 950px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(0, 242, 255, 0.02);
+            border: 1px solid var(--blue);
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+
+            .card:hover {
+                border-color: var(--pink);
+                box-shadow: 0 0 30px rgba(255, 0, 85, 0.2);
+            }
+
+        .download-station {
+            background: rgba(255, 0, 85, 0.1);
+            border: 2px solid var(--pink);
+            color: var(--pink);
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 900;
+            letter-spacing: 2px;
+            transition: 0.4s;
+            display: inline-block;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+            .download-station:hover {
+                background: var(--pink);
+                color: #fff;
+                box-shadow: 0 0 30px var(--pink);
+                transform: scale(1.05);
+            }
+
+        .tag {
+            font-size: 10px;
+            color: #888;
+            border: 1px solid #333;
+            padding: 2px 8px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader"><div class="bar"></div><div class="bar"></div></div>
+    <nav><a href="index.html"> << ВЕРНУТЬСЯ_К_ЯДРУ </a></nav>
+    <div class="container">
+        <h1 style="color:var(--pink)">/ ХРАНИЛИЩЕ_ПРОЕКТОВ</h1>
+        <div class="card">
+            <h2>ICDK_INTERNAL_v3.0 (В РАЗРАБОТКЕ)</h2>
+            <p>Internal manipulation engine. Построено на VMT Hooking и Manual Mapping для CS2.</p>
+            <div style="margin-top: 15px;"><span class="tag">C++ / DLL</span><span class="tag">INTERNAL</span></div>
+            <a href="skin_changer.html" class="download-station">ОТКРЫТЬ_ИНТЕРФЕЙС_МОДУЛЯ</a>
+        </div>
+    </div>
+    <script>
+        window.onload = () => setTimeout(() => document.getElementById('loader').style.opacity = '0', 300);
+        document.querySelector('nav a').onclick = (e) => { e.preventDefault(); const l = document.getElementById('loader'); l.style.opacity = '1'; l.classList.add('active'); setTimeout(() => location.href = "index.html", 500); };
+    </script>
+</body>
+</html>

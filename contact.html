@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ICDK // LINK</title>
+    <style>
+        :root {
+            --red: #ff3131;
+            --blue: #00f2ff;
+            --bg: #020205;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        .bar {
+            flex: 1;
+            background: var(--red);
+            transform: scaleX(0);
+            transition: 0.4s;
+        }
+
+        #loader.active {
+            opacity: 1 !important;
+            pointer-events: all;
+        }
+
+            #loader.active .bar {
+                transform: scaleX(1);
+            }
+
+        .box {
+            border: 1px solid var(--red);
+            padding: 35px;
+            background: rgba(255, 49, 49, 0.03);
+            box-shadow: 0 0 30px rgba(255, 49, 49, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        .qr-frame {
+            margin: 0 auto 25px auto;
+            border: 2px solid var(--blue);
+            padding: 10px;
+            background: #000;
+            position: relative;
+            width: 180px;
+            box-shadow: 0 0 15px var(--blue);
+            overflow: hidden;
+        }
+
+            .qr-frame img {
+                width: 100%;
+                display: block;
+            }
+
+            .qr-frame::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--blue);
+                animation: scan_line 2.5s linear infinite;
+            }
+
+        @keyframes scan_line {
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        h3 {
+            color: var(--red);
+            margin: 0 0 15px 0;
+            letter-spacing: 3px;
+            font-size: 14px;
+        }
+
+        .label {
+            color: var(--blue);
+            font-size: 9px;
+            display: block;
+            letter-spacing: 2px;
+            margin-top: 12px;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.3s;
+            font-family: monospace;
+            border-bottom: 1px solid #222;
+        }
+
+            a:hover {
+                color: var(--red);
+                border-color: var(--red);
+                text-shadow: 0 0 8px var(--red);
+            }
+    </style>
+</head>
+<body>
+    <div id="loader"><div class="bar"></div></div>
+
+    <div class="box">
+        <div class="qr-frame"><img src="photos/qr_telega.png" alt="QR"></div>
+
+        <h3>COMM_LINK_READY</h3>
+
+        <span class="label">Telegram Node</span>
+        <a href="https://t.me" target="_blank">@DENGAR_ICDK</a>
+
+        <span class="label">Secure E-Mail</span>
+        <a href="mailto:danya.belov.2007@internet.ru">danya.belov.2007@internet.ru</a>
+
+        <!-- ДОБАВЛЕННЫЙ НОМЕР ТЕЛЕФОНА -->
+        <span class="label">Mobile Comm</span>
+        <a href="tel:+79800704800">+7 (980) 070-48-00</a>
+
+        <div style="margin-top:25px;">
+            <a href="index.html" style="font-size:10px; color:#444; border:none;">[ BACK_TO_CORE ]</a>
+        </div>
+    </div>
+
+    <script>
+        window.onload = () => setTimeout(() => document.getElementById('loader').style.opacity = '0', 200);
+        document.querySelector('a[href="index.html"]').onclick = (e) => {
+        e.preventDefault();
+        const l = document.getElementById('loader');
+        l.style.opacity = '1'; l.classList.add('active');
+        setTimeout(() => location.href = "index.html", 500);
+        }
+    </script>
+</body>
+</html>
