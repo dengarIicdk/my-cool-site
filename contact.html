@@ -10,6 +10,31 @@
             --bg: #020205;
         }
 
+        /* Стили для навигации сверху */
+        .top-nav {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 500;
+        }
+
+        .top-nav a {
+            color: #444;
+            text-decoration: none;
+            font-size: 12px;
+            margin: 0 10px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .top-nav a:hover {
+            color: var(--blue);
+            text-shadow: 0 0 10px var(--blue);
+        }
+
         body {
             background: var(--bg);
             color: #fff;
@@ -20,6 +45,7 @@
             height: 100vh;
             margin: 0;
             overflow: hidden;
+            position: relative; /* Чтобы навигация позиционировалась относительно тела */
         }
 
         #loader {
@@ -46,9 +72,9 @@
             pointer-events: all;
         }
 
-            #loader.active .bar {
-                transform: scaleX(1);
-            }
+        #loader.active .bar {
+            transform: scaleX(1);
+        }
 
         .box {
             border: 1px solid var(--red);
@@ -57,6 +83,7 @@
             box-shadow: 0 0 30px rgba(255, 49, 49, 0.1);
             width: 350px;
             text-align: center;
+            z-index: 10; /* Чтобы бокс был над фоном */
         }
 
         .qr-frame {
@@ -70,30 +97,25 @@
             overflow: hidden;
         }
 
-            .qr-frame img {
-                width: 100%;
-                display: block;
-            }
+        .qr-frame img {
+            width: 100%;
+            display: block;
+        }
 
-            .qr-frame::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 2px;
-                background: var(--blue);
-                animation: scan_line 2.5s linear infinite;
-            }
+        .qr-frame::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--blue);
+            animation: scan_line 2.5s linear infinite;
+        }
 
         @keyframes scan_line {
-            0% {
-                top: 0%;
-            }
-
-            100% {
-                top: 100%;
-            }
+            0% { top: 0%; }
+            100% { top: 100%; }
         }
 
         h3 {
@@ -122,21 +144,23 @@
             border-bottom: 1px solid #222;
         }
 
-            a:hover {
-                color: var(--red);
-                border-color: var(--red);
-                text-shadow: 0 0 8px var(--red);
-            }
+        a:hover {
+            color: var(--red);
+            border-color: var(--red);
+            text-shadow: 0 0 8px var(--red);
+        }
     </style>
 </head>
 <body>
-    <nav>
-    <a href="index.html">Главная</a> |
-    <a href="projects.html">Проекты</a> |
-    <a href="skin_changer.html">Скин Чейнджер</a> |
-    <a href="contact.html">Контакты</a>
-</nav>
-<hr>
+
+    <!-- Навигация теперь внутри специального блока -->
+    <div class="top-nav">
+        <a href="index.html">Главная</a>
+        <a href="projects.html">Проекты</a>
+        <a href="skin_changer.html">Скин Чейнджер</a>
+        <a href="contact.html" style="color: var(--red); border-bottom: 1px solid var(--red);">Контакты</a>
+    </div>
+
     <div id="loader"><div class="bar"></div></div>
 
     <div class="box">
@@ -150,7 +174,6 @@
         <span class="label">Secure E-Mail</span>
         <a href="mailto:danya.belov.2007@internet.ru">danya.belov.2007@internet.ru</a>
 
-        <!-- ДОБАВЛЕННЫЙ НОМЕР ТЕЛЕФОНА -->
         <span class="label">Mobile Comm</span>
         <a href="tel:+79800704800">+7 (980) 070-48-00</a>
 
@@ -160,13 +183,22 @@
     </div>
 
     <script>
+        // Скрытие лоадера при загрузке
         window.onload = () => setTimeout(() => document.getElementById('loader').style.opacity = '0', 200);
-        document.querySelector('a[href="index.html"]').onclick = (e) => {
-        e.preventDefault();
-        const l = document.getElementById('loader');
-        l.style.opacity = '1'; l.classList.add('active');
-        setTimeout(() => location.href = "index.html", 500);
-        }
+
+        // Плавный переход для всех ссылок навигации
+        document.querySelectorAll('.top-nav a, a[href="index.html"]').forEach(link => {
+            link.onclick = (e) => {
+                const target = link.getAttribute('href');
+                if (target.startsWith('http') || target.startsWith('mailto') || target.startsWith('tel')) return;
+                
+                e.preventDefault();
+                const l = document.getElementById('loader');
+                l.style.opacity = '1'; 
+                l.classList.add('active');
+                setTimeout(() => location.href = target, 500);
+            }
+        });
     </script>
 </body>
 </html>
