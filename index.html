@@ -303,63 +303,23 @@
 
     <!-- СКРИПТЫ -->
     <script src="https://unpkg.com"></script>
-    <script>
-        // Инициализация анимаций
-        AOS.init({ duration: 1200, once: true });
+   <script>
+    // Инициализация анимаций
+    AOS.init({ duration: 1200, once: true });
 
-        // Генерация плиток для перехода
-        const overlay = document.getElementById('transition-overlay');
-        for(let i=0; i<10; i++) {
-            const tile = document.createElement('div');
-            tile.className = 'grid-tile';
-            tile.style.transitionDelay = (i * 0.05) + 's';
-            overlay.appendChild(tile);
+    // Убираем лоадер ГАРАНТИРОВАНО (через 2 секунды, даже если фото не подгрузилось)
+    const hideLoader = () => {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 800);
         }
+    };
 
-        // Симуляция системных логов
-        const logEntries = [
-            "[OK] Neural link established.",
-            "[INFO] Memory allocation at 0x7FFD23.",
-            "[WARN] Viewmodel service bypass active.",
-            "[OK] DirectLink interface online.",
-            "[SYSTEM] Welcome back, Operator Belov.",
-            "[INFO] Scanning for connected modules..."
-        ];
+    window.onload = hideLoader;
+    setTimeout(hideLoader, 2000); // Резервный таймер, если onload не сработал
 
-        function addLog() {
-            const logBox = document.getElementById('logs');
-            const entry = document.createElement('div');
-            entry.style.marginBottom = '5px';
-            entry.innerHTML = `<span style="color:var(--blue)">></span> ` + logEntries[Math.floor(Math.random() * logEntries.length)];
-            logBox.appendChild(entry);
-            if (logBox.childNodes.length > 8) logBox.removeChild(logBox.firstChild);
-        }
-        setInterval(addLog, 3000);
-
-        // Часы HUD
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
-
-        // Убираем лоадер
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('page-loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('page-loader').style.display = 'none', 800);
-            }, 1500);
-        };
-
-        // Плавный уход со страницы
-        document.querySelectorAll('nav a').forEach(link => {
-            link.onclick = (e) => {
-                const target = link.getAttribute('href');
-                if (target !== 'index.html' && target.includes('.html')) {
-                    e.preventDefault();
-                    overlay.classList.add('active');
-                    setTimeout(() => window.location.href = target, 800);
-                }
-            };
-        });
-    </script>
+    // ... остальной твой код (логи, часы и переходы) ...
+</script>
 </body>
 </html>
