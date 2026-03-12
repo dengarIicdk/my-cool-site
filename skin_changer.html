@@ -2,295 +2,294 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ICDK // SYSTEM_CONTROLLER</title>
+    <title>ICDK // DIRECT_LINK_INTERFACE</title>
     <style>
-        @import url('https://fonts.googleapis.com');
-
         :root {
-            --pink: #ff0055;
+            --red: #ff3131;
             --blue: #00f2ff;
             --bg: #020205;
+            --dark-red: #440000;
         }
 
         body {
             background: var(--bg);
             color: #fff;
-            font-family: 'Orbitron', sans-serif;
+            font-family: monospace;
             margin: 0;
-            padding: 20px;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
             height: 100vh;
-            background-image: linear-gradient(rgba(0, 242, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 242, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
+            overflow: hidden;
+            text-transform: uppercase;
         }
 
-        .noise {
-            position: fixed;
-            inset: 0;
-            background: url(https://media.giphy.com);
-            opacity: 0.04;
-            z-index: 2000;
-            pointer-events: none;
-        }
-
-        .scanline {
-            width: 100%;
-            height: 2px;
-            z-index: 2001;
-            background: rgba(0, 242, 255, 0.05);
-            position: fixed;
-            bottom: 100%;
-            animation: scanline 8s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scanline {
-            0% {
-                bottom: 100%;
-            }
-
-            100% {
-                bottom: 0%;
-            }
-        }
-
-        .header {
-            border-bottom: 2px solid var(--pink);
-            padding: 15px 40px;
+        /* Навигация сверху */
+        .top-nav {
+            background: #000;
+            border-bottom: 1px solid var(--red);
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0,0,0,0.85);
-            box-shadow: 0 0 20px rgba(255, 0, 85, 0.2);
+            z-index: 1000;
         }
 
-            .header h1 {
-                color: var(--pink);
-                margin: 0;
-                font-size: 1.1rem;
-                text-shadow: 0 0 10px var(--pink);
-                letter-spacing: 4px;
-            }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 30px;
-            margin-top: 30px;
-            padding: 0 20px;
-        }
-
-        .panel {
-            background: rgba(255, 0, 85, 0.02);
-            border: 1px solid var(--pink);
-            padding: 30px;
-            box-shadow: 0 0 25px rgba(255, 0, 85, 0.1);
-            position: relative;
-            backdrop-filter: blur(5px);
-        }
-
-        h3 {
-            color: var(--blue);
-            margin: 0 0 20px 0;
+        .nav-links a {
+            color: #444;
+            text-decoration: none;
             font-size: 11px;
-            border-bottom: 1px solid #222;
-            padding-bottom: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
+            margin-right: 20px;
+            letter-spacing: 1px;
+            transition: 0.3s;
         }
 
-        label {
-            font-size: 9px;
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--blue);
+        }
+
+        .header-title {
+            color: var(--red);
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-size: 14px;
+        }
+
+        .btn-disconnect {
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 5px 15px;
+            font-size: 10px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Главная рабочая область */
+        .main-interface {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Левая панель - Инъекция */
+        .side-panel {
+            width: 350px;
+            border: 1px solid var(--dark-red);
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-title {
+            color: var(--blue);
+            font-size: 12px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--dark-red);
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .label {
             color: #555;
-            text-transform: uppercase;
-            margin-top: 18px;
+            font-size: 9px;
             display: block;
-            letter-spacing: 1px;
+            margin-bottom: 5px;
         }
 
         select {
-            background: #000;
-            border: 1px solid var(--blue);
-            color: var(--blue);
-            padding: 12px;
             width: 100%;
-            margin-top: 5px;
-            font-family: 'Orbitron';
-            font-size: 10px;
-            outline: none;
-            transition: 0.3s;
-        }
-
-            select:hover {
-                border-color: var(--pink);
-                box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
-            }
-
-        /* ИНФОРМАЦИОННОЕ ТАБЛО */
-        .data-display {
-            background: #000;
+            background: #050505;
             border: 1px solid var(--blue);
-            color: var(--pink);
-            padding: 20px;
-            width: 100%;
-            margin-top: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.6rem;
-            font-weight: 900;
-            text-align: center;
-            letter-spacing: 6px;
-            position: relative;
-            text-shadow: 0 0 15px var(--pink);
-            box-sizing: border-box;
-            box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.1);
-        }
-
-            .data-display::before {
-                content: "PACKET_ID";
-                position: absolute;
-                top: -8px;
-                left: 15px;
-                background: var(--bg);
-                font-size: 8px;
-                padding: 0 8px;
-                color: var(--blue);
-                border: 1px solid var(--blue);
-            }
-
-        .btn-inject {
-            background: var(--pink);
             color: #fff;
-            border: none;
-            padding: 20px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: 900;
-            margin-top: 30px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            transition: 0.3s;
-            box-shadow: 0 0 20px var(--pink);
-            position: relative;
-            overflow: hidden;
+            padding: 8px;
+            font-family: monospace;
+            outline: none;
         }
 
-            .btn-inject:hover {
-                background: #fff;
-                color: var(--pink);
-                box-shadow: 0 0 40px var(--pink);
-                transform: translateY(-2px);
-            }
+        .id-display {
+            border: 1px solid var(--blue);
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            position: relative;
+        }
 
-            .btn-inject:active {
-                transform: translateY(1px);
-            }
+        .id-display::before {
+            content: "PACKET_ID";
+            position: absolute;
+            top: -7px;
+            left: 10px;
+            background: var(--bg);
+            padding: 0 5px;
+            font-size: 8px;
+            color: var(--blue);
+        }
 
-        .terminal {
-            background: rgba(0,0,0,0.95);
-            border: 1px solid #1a1a1a;
-            padding: 25px;
+        .id-value {
+            color: var(--red);
+            font-size: 24px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px var(--red);
+        }
+
+        .btn-execute {
+            margin-top: auto;
+            background: var(--red);
+            border: none;
+            color: #fff;
+            padding: 15px;
             font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-execute:hover {
+            box-shadow: 0 0 20px var(--red);
+            background: #ff4d4d;
+        }
+
+        /* Правая панель - Консоль */
+        .console-panel {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #111;
+            padding: 20px;
             font-size: 11px;
-            height: 400px;
             color: #444;
             overflow-y: auto;
-            box-shadow: inset 0 0 30px #000;
+            line-height: 1.6;
         }
 
-        .blue {
-            color: var(--blue);
-            text-shadow: 0 0 5px var(--blue);
-        }
+        .console-line span.system { color: #666; }
+        .console-line span.ready { color: var(--blue); }
+        .console-line span.success { color: var(--red); }
 
-        .pink {
-            color: var(--pink);
-            text-shadow: 0 0 5px var(--pink);
+        /* Лоадер */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            pointer-events: none;
         }
+        .bar { flex: 1; background: var(--red); transform: scaleX(0); transition: 0.4s; }
+        #loader.active .bar { transform: scaleX(1); }
     </style>
 </head>
 <body>
-    <nav>
-    <a href="index.html">Главная</a> |
-    <a href="projects.html">Проекты</a> |
-    <a href="skin_changer.html">Скин Чейнджер</a> |
-    <a href="contact.html">Контакты</a>
-</nav>
-<hr>
-    <div class="noise"></div>
-    <div class="scanline"></div>
 
-    <div class="header">
-        <h1>ICDK // DIRECT_LINK_INTERFACE</h1>
-        <a href="projects.html" style="color:var(--blue); text-decoration:none; border:1px solid var(--blue); padding:8px 25px; font-size: 10px; letter-spacing: 2px;">DISCONNECT</a>
-    </div>
+    <nav class="top-nav">
+        <div class="nav-links">
+            <a href="index.html">Главная</a>
+            <a href="projects.html">Проекты</a>
+            <a href="skin_changer.html" class="active">Скин Чейнджер</a>
+            <a href="contact.html">Контакты</a>
+        </div>
+        <div class="header-title">ICDK // DIRECT_LINK_INTERFACE</div>
+        <button class="btn-disconnect">DISCONNECT</button>
+    </nav>
 
-    <div class="grid">
-        <div class="panel">
-            <h3>HARDWARE_INJECTION</h3>
+    <div id="loader"><div class="bar"></div></div>
 
-            <label>MODEL_DEFINITION</label>
-            <select id="knife-id">
-                <option value="507">Karambit // 507</option>
-                <option value="515">Butterfly // 515</option>
-                <option value="508">M9_Bayonet // 508</option>
-                <option value="526">Kukri // 526</option>
-                <option value="500">Bayonet // 500</option>
-            </select>
+    <div class="main-interface">
+        <!-- Левая часть: Управление -->
+        <div class="side-panel">
+            <div class="panel-title">HARDWARE_INJECTION</div>
+            
+            <div class="control-group">
+                <span class="label">MODEL_DEFINITION</span>
+                <select id="weapon" onchange="updateId()">
+                    <option value="7" data-hex="0x192">Karambit | 007</option>
+                    <option value="9" data-hex="0x1F4">AWP | 009</option>
+                    <option value="4" data-hex="0x0A2">Glock-18 | 004</option>
+                </select>
+            </div>
 
-            <label>PAINT_KIT_ID</label>
-            <select id="skin-id">
-                <option value="0x192">Fade // Gradient</option>
-                <option value="0x1B2C">Gamma Doppler // Emerald</option>
-                <option value="0x231">Lore // Dragon</option>
-                <option value="0x1F4">Autotronic // Red</option>
-                <option value="0x13B">Asiimov // Sci-Fi</option>
-            </select>
+            <div class="control-group">
+                <span class="label">PAINT_KIT_ID</span>
+                <select id="skin" onchange="updateId()">
+                    <option value="433">Fade / Gradient</option>
+                    <option value="344">Dragon Lore</option>
+                    <option value="504">Kill Confirmed</option>
+                </select>
+            </div>
 
-            <label>STREAM_COMMAND_PREVIEW</label>
-            <div class="data-display" id="data-preview">507:0x192</div>
+            <div class="control-group">
+                <span class="label">STREAM_COMMAND_ID</span>
+                <div class="id-display">
+                    <div class="id-value" id="packet-id">507:0x192</div>
+                </div>
+            </div>
 
-            <button class="btn-inject" id="send-cmd">EXECUTE_RECONSTRUCTION</button>
+            <button class="btn-execute" onclick="runExecution()">EXECUTE_RECONSTRUCTION</button>
         </div>
 
-        <div class="terminal" id="logger">
-            <div style="color:#666;">[ SYSTEM_BOOT ] Bridge mode enabled.</div>
-            <div>[<span class="blue">READY</span>] Waiting for operator command...</div>
+        <!-- Правая часть: Логи -->
+        <div class="console-panel" id="console">
+            <div class="console-line"><span class="system">[ SYSTEM_BOOT ]</span> Bridge mode enabled...</div>
+            <div class="console-line"><span class="ready">READY</span> waiting for operator command...</div>
         </div>
     </div>
 
     <script>
-        const knifeSelect = document.getElementById('knife-id');
-        const skinSelect = document.getElementById('skin-id');
-        const display = document.getElementById('data-preview');
-        const logger = document.getElementById('logger');
-
-        function refreshPreview() {
-        display.innerText = `${knifeSelect.value}:${skinSelect.value}`;
-        }
-
-        knifeSelect.onchange = refreshPreview;
-        skinSelect.onchange = refreshPreview;
-
-        document.getElementById('send-cmd').onclick = () => {
-        const command = display.innerText;
-
-        // Прямая передача через буфер обмена в Лоадер
-        navigator.clipboard.writeText(command).then(() => {
-        addLog(`<span class="pink">STREAMING: [${command}] sent to Loader bridge.</span>`);
-        addLog(`[<span class="blue">SYSTEM</span>] skin_config.txt updated successfully.`);
-
-        // Эффект нажатия
-        display.style.color = "#00f2ff";
-        setTimeout(() => { display.style.color = "#ff0055"; }, 200);
-        });
+        // Лоадер
+        window.onload = () => {
+            setTimeout(() => document.getElementById('loader').style.opacity = '0', 300);
         };
 
-        function addLog(text) {
-        const div = document.createElement('div');
-        div.innerHTML = `[<span class="blue">${new Date().toLocaleTimeString()}</span>] ${text}`;
-        logger.appendChild(div);
-        logger.scrollTop = logger.scrollHeight;
+        // Обновление ID в боксе
+        function updateId() {
+            const weapon = document.getElementById('weapon');
+            const skin = document.getElementById('skin').value;
+            const hex = weapon.options[weapon.selectedIndex].getAttribute('data-hex');
+            document.getElementById('packet-id').innerText = `${skin}:${hex}`;
         }
+
+        // Симуляция работы
+        function runExecution() {
+            const consoleBox = document.getElementById('console');
+            const weaponName = document.getElementById('weapon').options[weapon.selectedIndex].text;
+            
+            const lines = [
+                `> INITIATING MEMORY_HOOK FOR ${weaponName}...`,
+                `> SEARCHING FOR OFFSET dwEntityList...`,
+                `> [SUCCESS] CLIENT_BASE FOUND AT 0x${Math.floor(Math.random()*16777215).toString(16).toUpperCase()}`,
+                `<span class="success">> APPLYING PAINT_KIT DATA... DONE.</span>`,
+                `> FORCING VIEWMODEL UPDATE...`
+            ];
+
+            lines.forEach((text, i) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.className = 'console-line';
+                    div.innerHTML = text;
+                    consoleBox.appendChild(div);
+                    consoleBox.scrollTop = consoleBox.scrollHeight;
+                }, i * 400);
+            });
+        }
+
+        // Переходы между вкладками
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.onclick = (e) => {
+                const href = link.getAttribute('href');
+                if (href && !href.includes('skin_changer')) {
+                    e.preventDefault();
+                    const l = document.getElementById('loader');
+                    l.style.opacity = '1'; l.classList.add('active');
+                    setTimeout(() => location.href = href, 500);
+                }
+            }
+        });
     </script>
 </body>
 </html>
