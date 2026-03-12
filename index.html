@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICDK // БЕЛОВ ДАНИИЛ</title>
+    <title>ICDK // SYSTEM_CORE_v4.0.1</title>
+    
+    <!-- ВНЕШНИЕ РЕСУРСЫ -->
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
     <link href="https://unpkg.com" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com');
-
         :root {
             --pink: #ff0055;
             --blue: #00f2ff;
             --red: #ff3131;
             --bg: #020205;
+            --panel-bg: rgba(255, 49, 49, 0.03);
+            --border: rgba(0, 242, 255, 0.2);
         }
 
+        /* ГЛОБАЛЬНЫЕ СТИЛИ */
+        * { cursor: crosshair; box-sizing: border-box; }
+        
         body {
             background: var(--bg);
             color: #fff;
@@ -22,144 +29,121 @@
             margin: 0;
             overflow: hidden;
             min-height: 100vh;
-        }
-
-        #exit-loader {
-            position: fixed;
-            inset: 0;
-            z-index: 10000;
-            display: none;
+            display: flex;
             flex-direction: column;
-            pointer-events: none;
         }
 
-        .wipe-bar {
-            flex: 1;
-            width: 100%;
-            background: var(--bg);
-            border-top: 1px solid var(--blue);
-            border-bottom: 1px solid var(--pink);
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.8, 0, 0.2, 1);
-        }
-
-            .wipe-bar:nth-child(even) {
-                transform: translateX(100%);
-            }
-
-        #exit-loader.active {
-            display: flex;
-            pointer-events: all;
-        }
-
-            #exit-loader.active .wipe-bar {
-                transform: translateX(0);
-            }
-
-        .entry-flash {
+        /* СИСТЕМНЫЙ ШУМ НА ФОНЕ */
+        body::before {
+            content: "";
             position: fixed;
             inset: 0;
-            background: var(--bg);
+            background: url('https://grainy-gradients.vercel.app');
+            opacity: 0.03;
+            pointer-events: none;
             z-index: 9999;
-            animation: flashOut 0.5s forwards;
-            pointer-events: none;
         }
 
-        @keyframes flashOut {
-            from {
-                opacity: 1;
-            }
-
-            to {
-                opacity: 0;
-            }
-        }
-
-        .noise {
+        /* HUD ЭЛЕМЕНТЫ ПО УГЛАМ */
+        .hud-corner {
             position: fixed;
-            inset: 0;
-            background: url(https://media.giphy.com);
-            opacity: 0.05;
-            z-index: 2000;
-            pointer-events: none;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--blue);
+            z-index: 5000;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
+        .top-left { top: 0; left: 0; border-left: 2px solid var(--red); }
+        .top-right { top: 0; right: 0; border-right: 2px solid var(--blue); text-align: right; }
+        .bottom-left { bottom: 0; left: 0; color: #444; }
 
-        nav {
+        /* HEADER & LOGO */
+        header {
             display: flex;
-            justify-content: center;
-            gap: 45px;
-            padding: 40px;
-            position: relative;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4vh;
             z-index: 3000;
         }
 
-            nav a {
-                text-decoration: none;
-                color: var(--blue);
-                font-weight: 900;
-                text-transform: uppercase;
-                letter-spacing: 4px;
-                position: relative;
-                transition: 0.3s;
-                text-shadow: 0 0 10px var(--blue);
-                cursor: pointer;
-            }
+        .logo-container {
+            position: relative;
+            cursor: pointer;
+        }
 
-                nav a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -5px;
-                    left: 0;
-                    width: 0;
-                    height: 2px;
-                    background: var(--pink);
-                    transition: 0.3s;
-                    box-shadow: 0 0 10px var(--pink);
-                }
+        .logo-container img {
+            height: 200px;
+            filter: drop-shadow(0 0 25px var(--red));
+            animation: main-float 5s infinite ease-in-out;
+            transition: 0.3s;
+        }
 
-                nav a:hover {
-                    color: var(--pink);
-                    text-shadow: 0 0 20px var(--pink);
-                    transform: skewX(-10deg);
-                }
+        .logo-container:hover img {
+            filter: drop-shadow(0 0 40px var(--blue));
+            transform: scale(1.05) skewX(-2deg);
+        }
 
-                    nav a:hover::after {
-                        width: 100%;
-                    }
+        @keyframes main-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
 
-        .hero {
+        /* НАВИГАЦИЯ */
+        nav {
+            margin-top: 30px;
+            display: flex;
+            gap: 60px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 15px 40px;
+            background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.05), transparent);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 700;
+            letter-spacing: 5px;
+            font-size: 14px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        nav a.active, nav a:hover {
+            color: var(--blue);
+            text-shadow: 0 0 15px var(--blue);
+            transform: translateY(-3px);
+        }
+
+        /* HERO SECTION */
+        .content-frame {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 20px;
+            padding: 40px;
             position: relative;
-            z-index: 100;
-            animation: cyberFloat 6s ease-in-out infinite;
         }
 
-        @keyframes cyberFloat {
-            0%, 100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-
-        .photo-frame {
-            width: 170px;
-            height: 170px;
-            margin: 0 auto 30px auto;
+        .profile-hex {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            position: relative;
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             background: var(--blue);
-            padding: 3px;
-            box-shadow: 0 0 25px var(--blue);
+            padding: 4px;
+            transition: 0.5s;
         }
 
-        .photo-inner {
+        .profile-hex:hover {
+            transform: rotate(10deg);
+            box-shadow: 0 0 50px var(--blue);
+        }
+
+        .profile-hex .inner {
             width: 100%;
             height: 100%;
             background: #000;
@@ -167,103 +151,214 @@
             overflow: hidden;
         }
 
-            .photo-inner img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                filter: grayscale(0.5);
-            }
-
-        h1 {
-            font-size: clamp(2rem, 8vw, 4rem);
-            margin: 0;
-            text-shadow: 3px 3px var(--red), -3px -3px var(--blue);
-            letter-spacing: 5px;
+        .profile-hex img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: 0.5s;
         }
 
-        .about-section {
-            max-width: 600px;
-            margin-top: 40px;
-            font-family: monospace;
-            line-height: 1.6;
-            color: #ccc;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 25px;
+        .profile-hex:hover img { opacity: 1; filter: contrast(1.2); }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin: 0;
+            background: linear-gradient(to bottom, #fff 50%, #666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(4px 4px 0px var(--red));
+            letter-spacing: 10px;
+        }
+
+        .status-tag {
+            color: var(--pink);
+            letter-spacing: 12px;
+            font-size: 12px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        /* КОНСОЛЬНЫЙ БЛОК ЛОГОВ */
+        .system-logs {
+            width: 600px;
+            height: 150px;
+            border: 1px solid var(--border);
+            margin-top: 30px;
+            background: rgba(0,0,0,0.5);
+            padding: 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #444;
+            overflow: hidden;
+            text-align: left;
             position: relative;
         }
 
-            .about-section b {
-                color: var(--blue);
-            }
+        .system-logs::after {
+            content: "SYSTEM_MONITOR";
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            color: var(--blue);
+            opacity: 0.5;
+        }
 
-            .about-section::before {
-                content: "[ OPERATOR_BIO ]";
-                position: absolute;
-                top: -10px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: var(--bg);
-                padding: 0 15px;
-                font-size: 10px;
-                color: var(--pink);
-                letter-spacing: 3px;
-            }
+        /* LOADERS & WIPES */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 20000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.8s;
+        }
+
+        .loader-bar {
+            width: 300px;
+            height: 2px;
+            background: #111;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader-bar::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 50%;
+            background: var(--red);
+            animation: loading 2s infinite ease-in-out;
+        }
+
+        @keyframes loading {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        #transition-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 30000;
+            display: none;
+            grid-template-columns: repeat(10, 1fr);
+        }
+        .grid-tile { background: var(--blue); transform: scaleY(0); transition: 0.4s; }
+        #transition-overlay.active { display: grid; }
+        #transition-overlay.active .grid-tile { transform: scaleY(1); }
+
     </style>
 </head>
 <body>
-    <nav class="top-nav" style="
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    padding-top: 5vh; 
-    margin-bottom: 5vh;
-    width: 100%;
-">
-    <div class="logo-main" style="
-        position: relative;
-        transition: 0.5s;
-        z-index: 100;
-    ">
-        <img src="photos/logo.png" style="
-            height: 180px; 
-            width: auto; 
-            filter: drop-shadow(0 0 30px var(--red));
-            animation: logo-float 4s infinite ease-in-out;
-        ">
-    </div>
-        <style>
-@keyframes logo-float {
-    0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 30px var(--red)); }
-    50% { transform: translateY(-10px); filter: drop-shadow(0 0 50px var(--red)); }
-}
-</style>
-</nav>
-    <div class="entry-flash"></div>
-    <div id="exit-loader"><div class="wipe-bar"></div><div class="wipe-bar"></div><div class="wipe-bar"></div><div class="wipe-bar"></div></div>
-    <div class="noise"></div>
-    <nav><a href="index.html">ЯДРО</a><a href="projects.html">ПРОЕКТЫ</a><a href="contact.html">СВЯЗЬ</a></nav>
-    <div class="hero">
-        <div class="photo-frame" data-aos="zoom-in"><div class="photo-inner"><img src="photos/me.jpg" alt="Danya"></div></div>
-        <h1 data-aos="fade-up">БЕЛОВ ДАНИИЛ</h1>
-        <p style="color:var(--pink); letter-spacing:8px; margin-top: 10px;" data-aos="fade-up">ICDK-730-LEGACY // ONLINE</p>
-        <div class="about-section" data-aos="fade-up" data-aos-delay="300">
-            Я — <b>UI/UX Designer</b> и <b>Software Architect</b>. <br><br>
-            Мой подход — это <b>Digital Brutalism</b>. Я проектирую интерфейсы будущего: агрессивные, неоновые и бескомпромиссные. <br>
-            Специализируюсь на создании интерактивных сред, где визуальный стиль подчеркивает технологическую мощь.
+
+    <!-- HUD СЛОЙ -->
+    <div class="hud-corner top-left">Connection: Secure<br>Protocol: ICDK_CORE_v4</div>
+    <div class="hud-corner top-right">Uptime: <span id="clock">00:00:00</span><br>Region: MSK_NODE_07</div>
+    <div class="hud-corner bottom-left">© 2026 BELOV DIGITAL INDUSTRIES. ALL RIGHTS RESERVED.</div>
+
+    <!-- ЗАГРУЗЧИК -->
+    <div id="page-loader">
+        <div style="text-align: center;">
+            <div style="color: var(--red); font-size: 10px; letter-spacing: 5px; margin-bottom: 15px;">BOOTING_CORE...</div>
+            <div class="loader-bar"></div>
         </div>
     </div>
+
+    <!-- ПЕРЕХОД -->
+    <div id="transition-overlay">
+        <!-- Генерируется через JS -->
+    </div>
+
+    <header>
+        <div class="logo-container" data-aos="zoom-in">
+            <img src="photos/logo.png" alt="CORE_LOGO">
+        </div>
+        
+        <nav data-aos="fade-down" data-aos-delay="200">
+            <a href="index.html" class="active">ЯДРО</a>
+            <a href="projects.html">ПРОЕКТЫ</a>
+            <a href="skin_changer.html">ЧЕЙНДЖЕР</a>
+            <a href="contact.html">СВЯЗЬ</a>
+        </nav>
+    </header>
+
+    <main class="content-frame">
+        <div class="profile-hex" data-aos="flip-left" data-aos-delay="400">
+            <div class="inner">
+                <img src="photos/me.jpg" alt="OPERATOR">
+            </div>
+        </div>
+
+        <h1 data-aos="fade-up" data-aos-delay="600">БЕЛОВ ДАНИИЛ</h1>
+        <div class="status-tag" data-aos="fade-up" data-aos-delay="700">ICDK-730-LEGACY // ONLINE</div>
+
+        <div class="system-logs" id="logs" data-aos="fade-in" data-aos-delay="900">
+            <!-- Сюда JS будет дописывать логи -->
+        </div>
+    </main>
+
+    <!-- СКРИПТЫ -->
     <script src="https://unpkg.com"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
-        document.querySelectorAll('nav a').forEach(link => {
-        link.onclick = (e) => {
-        const target = link.getAttribute('href');
-        if (target !== 'index.html' && target.includes('.html')) {
-        e.preventDefault();
-        document.getElementById('exit-loader').classList.add('active');
-        setTimeout(() => { window.location.href = target; }, 500);
+        // Инициализация анимаций
+        AOS.init({ duration: 1200, once: true });
+
+        // Генерация плиток для перехода
+        const overlay = document.getElementById('transition-overlay');
+        for(let i=0; i<10; i++) {
+            const tile = document.createElement('div');
+            tile.className = 'grid-tile';
+            tile.style.transitionDelay = (i * 0.05) + 's';
+            overlay.appendChild(tile);
         }
+
+        // Симуляция системных логов
+        const logEntries = [
+            "[OK] Neural link established.",
+            "[INFO] Memory allocation at 0x7FFD23.",
+            "[WARN] Viewmodel service bypass active.",
+            "[OK] DirectLink interface online.",
+            "[SYSTEM] Welcome back, Operator Belov.",
+            "[INFO] Scanning for connected modules..."
+        ];
+
+        function addLog() {
+            const logBox = document.getElementById('logs');
+            const entry = document.createElement('div');
+            entry.style.marginBottom = '5px';
+            entry.innerHTML = `<span style="color:var(--blue)">></span> ` + logEntries[Math.floor(Math.random() * logEntries.length)];
+            logBox.appendChild(entry);
+            if (logBox.childNodes.length > 8) logBox.removeChild(logBox.firstChild);
+        }
+        setInterval(addLog, 3000);
+
+        // Часы HUD
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Убираем лоадер
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('page-loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('page-loader').style.display = 'none', 800);
+            }, 1500);
         };
+
+        // Плавный уход со страницы
+        document.querySelectorAll('nav a').forEach(link => {
+            link.onclick = (e) => {
+                const target = link.getAttribute('href');
+                if (target !== 'index.html' && target.includes('.html')) {
+                    e.preventDefault();
+                    overlay.classList.add('active');
+                    setTimeout(() => window.location.href = target, 800);
+                }
+            };
         });
     </script>
 </body>
