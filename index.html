@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICDK // БЕЛОВ ДАНИИЛ</title>
-    <!-- Подключаем стили и шрифты правильно -->
+    <!-- Шрифты и стили анимаций -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <link href="https://unpkg.com" rel="stylesheet">
     <style>
@@ -76,10 +76,10 @@
             }
         }
 
-        /* ТВОЯ НАВИГАЦИЯ (ИСПРАВЛЕННАЯ) */
+        /* ТВОЙ NAV С ПЛАВАЮЩИМ ЛОГОТИПОМ */
         nav {
             display: flex;
-            flex-direction: column; /* Элементы в колонку: Лого над ссылками */
+            flex-direction: column;
             align-items: center;
             padding: 40px;
             position: relative;
@@ -87,7 +87,6 @@
             gap: 20px;
         }
 
-        /* ДИЗАЙН ЛОГОТИПА */
         .logo-main img {
             height: 120px;
             width: auto;
@@ -107,7 +106,6 @@
             }
         }
 
-        /* ТВОИ СТИЛИ ССЫЛОК (БЕЗ ИЗМЕНЕНИЙ) */
         .nav-links {
             display: flex;
             gap: 45px;
@@ -154,14 +152,26 @@
             }
         }
 
+        /* ГЕКСАГОН С ЖИВЫМ ФОТО */
         .photo-frame {
-            width: 170px;
-            height: 170px;
+            width: 200px;
+            height: 200px;
             margin: 0 auto 30px auto;
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             background: var(--blue);
             padding: 3px;
-            box-shadow: 0 0 25px var(--blue);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
+            animation: hex-glow 3s infinite alternate;
+        }
+
+        @keyframes hex-glow {
+            from {
+                box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            }
+
+            to {
+                box-shadow: 0 0 40px var(--blue), 0 0 15px var(--red);
+            }
         }
 
         .photo-inner {
@@ -170,27 +180,39 @@
             background: #000;
             clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
             overflow: hidden;
+            position: relative;
         }
 
             .photo-inner img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                filter: grayscale(0.5);
+                /* УБРАЛ СЕРОСТЬ: ЦВЕТ И КОНТРАСТ */
+                filter: contrast(1.1) saturate(1.2) brightness(1.05);
+                transition: 0.5s;
             }
-            .photo-inner img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                /* ВОТ ЭТИ СТРОЧКИ: */
-               filter: grayscale(1) contrast(1.1) brightness(0.9); /* Сделает ч/б и суровее */
-               mix-blend-mode: lighten; /* Смешает светлые тона с неоном (по желанию) */
-               transition: 0.5s;
-}
 
-.photo-inner:hover img {
-    filter: grayscale(0) contrast(1.2); /* При наведении фото становится цветным */
-}
+            /* ЛИНИЯ СКАНИРОВАНИЯ HUD */
+            .photo-inner::after {
+                content: "";
+                position: absolute;
+                top: -100%;
+                left: 0;
+                width: 100%;
+                height: 40%;
+                background: linear-gradient(to bottom, transparent, rgba(0, 242, 255, 0.2), transparent);
+                animation: scan 3s infinite linear;
+            }
+
+        @keyframes scan {
+            0% {
+                top: -100%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
 
         h1 {
             font-size: clamp(2rem, 8vw, 4rem);
