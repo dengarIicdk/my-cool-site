@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICDK // БЕЛОВ ДАНИИЛ</title>
-    <!-- Шрифты и стили анимаций -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <link href="https://unpkg.com" rel="stylesheet">
     <style>
@@ -23,8 +22,6 @@
             overflow-x: hidden;
             min-height: 100vh;
         }
-
-        /* ЭФФЕКТЫ ПЕРЕХОДА */
         #exit-loader {
             position: fixed;
             inset: 0;
@@ -75,8 +72,6 @@
                 opacity: 0;
             }
         }
-
-        /* ТВОЙ NAV С ПЛАВАЮЩИМ ЛОГОТИПОМ */
         nav {
             display: flex;
             flex-direction: column;
@@ -128,8 +123,6 @@
                     text-shadow: 0 0 20px var(--pink);
                     transform: skewX(-10deg);
                 }
-
-        /* ЦЕНТРАЛЬНЫЙ БЛОК */
         .hero {
             display: flex;
             flex-direction: column;
@@ -151,8 +144,6 @@
                 transform: translateY(-15px);
             }
         }
-
-        /* ГЕКСАГОН С ЖИВЫМ ФОТО */
         .photo-frame {
             width: 200px;
             height: 200px;
@@ -187,12 +178,9 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
-                /* УБРАЛ СЕРОСТЬ: ЦВЕТ И КОНТРАСТ */
                 filter: contrast(1.1) saturate(1.2) brightness(1.05);
                 transition: 0.5s;
             }
-
-            /* ЛИНИЯ СКАНИРОВАНИЯ HUD */
             .photo-inner::after {
                 content: "";
                 position: absolute;
@@ -255,8 +243,6 @@
     <div id="exit-loader">
         <div class="wipe-bar"></div><div class="wipe-bar"></div><div class="wipe-bar"></div><div class="wipe-bar"></div>
     </div>
-
-    <!-- ТВОЙ NAV С ЛОГОТИПОМ -->
     <nav>
         <div class="logo-main">
             <img src="photos/logo.png" alt="ICDK_LOGO">
@@ -284,8 +270,6 @@
             Специализируюсь на создании интерактивных сред, где визуальный стиль подчеркивает технологическую мощь.
         </div>
     </div>
-
-    <!-- СКРИПТЫ -->
     <script src="https://unpkg.com"></script>
     <script>
         AOS.init({ duration: 800, once: true });
