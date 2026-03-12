@@ -2,7 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>ICDK // LINK</title>
+    <title>ICDK // CONTACT_LINK</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <link href="https://unpkg.com" rel="stylesheet">
     <style>
         :root {
             --red: #ff3131;
@@ -10,41 +12,12 @@
             --bg: #020205;
         }
 
-        /* Навигация фиксирована сверху и не мешает центру */
-        .top-nav {
-            position: fixed;
-            top: 30px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            z-index: 1000;
-        }
-
-        .top-nav a {
-            color: #444;
-            text-decoration: none;
-            font-size: 11px;
-            margin: 0 15px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            border: none !important; /* Убираем нижнюю черту для навигации */
-        }
-
-        .top-nav a:hover {
-            color: var(--blue);
-            text-shadow: 0 0 10px var(--blue);
-        }
-
-        .top-nav a.active {
-            color: var(--red);
-        }
-
         body {
             background: var(--bg);
             color: #fff;
-            font-family: monospace;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -52,29 +25,56 @@
             overflow: hidden;
         }
 
-        #loader {
+        /* ШАПКА С ЛОГОТИПОМ */
+        header {
             position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10000;
-            transition: 0.3s;
+            top: 40px;
             display: flex;
             flex-direction: column;
-            pointer-events: none;
-            opacity: 1;
+            align-items: center;
+            z-index: 1000;
         }
 
-        .bar {
-            flex: 1;
-            background: var(--red);
-            transform: scaleX(0);
-            transition: 0.4s;
+        .logo-top img {
+            height: 90px; /* Оптимально для этой страницы */
+            filter: drop-shadow(0 0 15px var(--red));
+            animation: logo-float 4s infinite ease-in-out;
+            margin-bottom: 20px;
         }
 
-        #loader.active { opacity: 1 !important; pointer-events: all; }
-        #loader.active .bar { transform: scaleX(1); }
+        @keyframes logo-float {
+            0%, 100% {
+                transform: translateY(0);
+                filter: drop-shadow(0 0 10px var(--red));
+            }
 
-        /* Основной бокс */
+            50% {
+                transform: translateY(-10px);
+                filter: drop-shadow(0 0 25px var(--blue));
+            }
+        }
+
+        /* НАВИГАЦИЯ */
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+            nav a {
+                text-decoration: none;
+                color: #444;
+                font-size: 11px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                transition: 0.3s;
+            }
+
+                nav a:hover, nav a.active {
+                    color: var(--blue);
+                    text-shadow: 0 0 10px var(--blue);
+                }
+
+        /* КОНТЕЙНЕР КОНТАКТОВ */
         .box {
             border: 1px solid var(--red);
             padding: 35px;
@@ -83,6 +83,7 @@
             width: 350px;
             text-align: center;
             position: relative;
+            z-index: 10;
         }
 
         .qr-frame {
@@ -96,22 +97,30 @@
             overflow: hidden;
         }
 
-        .qr-frame img { width: 100%; display: block; }
+            .qr-frame img {
+                width: 100%;
+                display: block;
+            }
 
-        .qr-frame::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--blue);
-            animation: scan_line 2.5s linear infinite;
-        }
+            .qr-frame::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: var(--blue);
+                animation: scan_line 2.5s linear infinite;
+            }
 
         @keyframes scan_line {
-            0% { top: 0%; }
-            100% { top: 100%; }
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
         }
 
         h3 {
@@ -131,7 +140,7 @@
             text-transform: uppercase;
         }
 
-        a {
+        a.contact-link {
             color: #fff;
             text-decoration: none;
             font-size: 13px;
@@ -140,16 +149,16 @@
             border-bottom: 1px solid #222;
         }
 
-        a:hover {
-            color: var(--red);
-            border-color: var(--red);
-            text-shadow: 0 0 8px var(--red);
-        }
+            a.contact-link:hover {
+                color: var(--red);
+                border-color: var(--red);
+                text-shadow: 0 0 8px var(--red);
+            }
 
-        .back-link {
-            font-size: 10px; 
-            color: #444; 
-            border: none !important;
+        .back-core {
+            font-size: 10px;
+            color: #444;
+            text-decoration: none;
             margin-top: 25px;
             display: inline-block;
         }
@@ -157,50 +166,38 @@
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="index.html">Главная</a>
-        <a href="projects.html">Проекты</a>
-        <a href="skin_changer.html">Скин Чейнджер</a>
-        <a href="contact.html" class="active">Контакты</a>
-    </nav>
+    <header>
+        <div class="logo-top">
+            <img src="photos/logo.png" alt="ICDK_LOGO">
+        </div>
+        <nav>
+            <a href="index.html">ЯДРО</a>
+            <a href="projects.html">ПРОЕКТЫ</a>
+            <a href="contact.html" class="active">СВЯЗЬ</a>
+        </nav>
+    </header>
 
-    <div id="loader"><div class="bar"></div></div>
-
-    <div class="box">
+    <div class="box" data-aos="zoom-in">
         <div class="qr-frame"><img src="photos/qr_telega.png" alt="QR"></div>
-
         <h3>COMM_LINK_READY</h3>
 
         <span class="label">Telegram Node</span>
-        <a href="https://t.me" target="_blank">@DENGAR_ICDK</a>
+        <a href="https://t.me" class="contact-link" target="_blank">@DENGAR_ICDK</a>
 
         <span class="label">Secure E-Mail</span>
-        <a href="mailto:danya.belov.2007@internet.ru">danya.belov.2007@internet.ru</a>
+        <a href="mailto:danya.belov.2007@internet.ru" class="contact-link">danya.belov.2007@internet.ru</a>
 
         <span class="label">Mobile Comm</span>
-        <a href="tel:+79800704800">+7 (980) 070-48-00</a>
+        <a href="tel:+79800704800" class="contact-link">+7 (980) 070-48-00</a>
 
         <div>
-            <a href="index.html" class="back-link">[ BACK_TO_CORE ]</a>
+            <a href="index.html" class="back-core">[ BACK_TO_CORE ]</a>
         </div>
     </div>
 
+    <script src="https://unpkg.com"></script>
     <script>
-        window.onload = () => setTimeout(() => document.getElementById('loader').style.opacity = '0', 200);
-
-        // Плавный переход для вкладок
-        document.querySelectorAll('.top-nav a, .back-link').forEach(link => {
-            link.onclick = (e) => {
-                const href = link.getAttribute('href');
-                if (href.includes('index') || href.includes('projects') || href.includes('skin_changer') || href.includes('contact')) {
-                    e.preventDefault();
-                    const l = document.getElementById('loader');
-                    l.style.opacity = '1'; 
-                    l.classList.add('active');
-                    setTimeout(() => location.href = href, 500);
-                }
-            }
-        });
+        AOS.init({ duration: 1000, once: true });
     </script>
 </body>
 </html>
