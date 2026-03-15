@@ -11,6 +11,7 @@
             --bg: #020205;
             --dark-red: #220000;
         }
+
         body {
             background: var(--bg);
             color: #fff;
@@ -22,6 +23,8 @@
             overflow: hidden;
             text-transform: uppercase;
         }
+
+        /* КРУТОЙ ПЕРЕХОД (GLITCH WIPE) */
         #transition-layer {
             position: fixed;
             inset: 0;
@@ -34,7 +37,12 @@
             justify-content: center;
             mix-blend-mode: exclusion;
         }
-        #transition-layer.active { transform: translateY(0); }
+
+            #transition-layer.active {
+                transform: translateY(0);
+            }
+
+        /* НАВИГАЦИЯ */
         .top-nav {
             background: #000;
             border-bottom: 1px solid var(--red);
@@ -53,18 +61,34 @@
             letter-spacing: 2px;
             transition: 0.3s;
         }
-        .nav-links a:hover, .nav-links a.active { 
-            color: var(--blue); 
-            text-shadow: 0 0 10px var(--blue); 
+
+            .nav-links a:hover, .nav-links a.active {
+                color: var(--blue);
+                text-shadow: 0 0 10px var(--blue);
+            }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .header-logo { display: flex; align-items: center; gap: 15px; }
-        .header-logo img { 
-            height: 45px; 
-            filter: drop-shadow(0 0 10px var(--red));
-            animation: pulse-red 2s infinite alternate;
+            .header-logo img {
+                height: 45px;
+                filter: drop-shadow(0 0 10px var(--red));
+                animation: pulse-red 2s infinite alternate;
+            }
+
+        /* ИНТЕРФЕЙС */
+        .main-interface {
+            display: flex;
+            flex: 1;
+            padding: 25px;
+            gap: 25px;
+            background: radial-gradient(circle at center, #050510 0%, #020205 100%);
         }
-        .main-interface { display: flex; flex: 1; padding: 25px; gap: 25px; background: radial-gradient(circle at center, #050510 0%, #020205 100%); }
+
+        /* ЛЕВАЯ ПАНЕЛЬ */
         .side-panel {
             width: 380px;
             border: 1px solid var(--dark-red);
@@ -83,64 +107,136 @@
             border-bottom: 1px solid var(--dark-red);
             padding-bottom: 15px;
         }
-        .panel-header img { height: 35px; margin-right: 15px; filter: drop-shadow(0 0 8px var(--blue)); animation: pulse-blue 3s infinite alternate; }
 
-        .label { color: #555; font-size: 10px; display: block; margin-bottom: 10px; letter-spacing: 1px; }
-        
-        select { 
-            width: 100%; 
-            background: #000; 
-            border: 1px solid var(--dark-red); 
-            color: #fff; 
-            padding: 12px; 
-            font-family: 'Orbitron'; 
-            outline: none; 
-            margin-bottom: 25px; 
+            .panel-header img {
+                height: 35px;
+                margin-right: 15px;
+                filter: drop-shadow(0 0 8px var(--blue));
+                animation: pulse-blue 3s infinite alternate;
+            }
+
+        .label {
+            color: #555;
+            font-size: 10px;
+            display: block;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        select {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--dark-red);
+            color: #fff;
+            padding: 12px;
+            font-family: 'Orbitron';
+            outline: none;
+            margin-bottom: 25px;
             transition: 0.3s;
         }
-        select:focus { border-color: var(--blue); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
 
-        .id-display { 
-            border: 1px solid var(--blue); 
-            padding: 20px; 
-            text-align: center; 
+            select:focus {
+                border-color: var(--blue);
+                box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+            }
+
+        .id-display {
+            border: 1px solid var(--blue);
+            padding: 20px;
+            text-align: center;
             position: relative;
             background: rgba(0, 242, 255, 0.02);
         }
-        .id-value { color: var(--red); font-size: 28px; letter-spacing: 8px; text-shadow: 0 0 15px var(--red); }
-        .btn-execute { 
-            margin-top: auto; 
-            background: var(--red); 
-            border: none; 
-            color: #fff; 
-            padding: 20px; 
-            font-family: 'Orbitron'; 
-            font-weight: 900; 
-            cursor: pointer; 
-            letter-spacing: 4px; 
+
+        .id-value {
+            color: var(--red);
+            font-size: 28px;
+            letter-spacing: 8px;
+            text-shadow: 0 0 15px var(--red);
+        }
+
+        /* КНОПКА С ГЛИТЧЕМ */
+        .btn-execute {
+            margin-top: auto;
+            background: var(--red);
+            border: none;
+            color: #fff;
+            padding: 20px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            cursor: pointer;
+            letter-spacing: 4px;
             transition: 0.2s;
         }
-        .btn-execute:hover { 
-            background: #ff4d4d; 
-            box-shadow: 0 0 30px var(--red);
-            animation: glitch 0.2s infinite;
-        }
-        .console-panel { 
-            flex: 1; 
-            background: rgba(0, 0, 0, 0.5); 
-            border: 1px solid #111; 
-            padding: 25px; 
-            font-size: 12px; 
-            color: #444; 
-            overflow-y: auto; 
-            line-height: 1.8; 
+
+            .btn-execute:hover {
+                background: #ff4d4d;
+                box-shadow: 0 0 30px var(--red);
+                animation: glitch 0.2s infinite;
+            }
+
+        /* КОНСОЛЬ */
+        .console-panel {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #111;
+            padding: 25px;
+            font-size: 12px;
+            color: #444;
+            overflow-y: auto;
+            line-height: 1.8;
             font-family: monospace;
             box-shadow: inset 0 0 50px #000;
         }
-        @keyframes pulse-red { from { filter: drop-shadow(0 0 5px var(--red)); } to { filter: drop-shadow(0 0 15px var(--red)); transform: scale(1.05); } }
-        @keyframes pulse-blue { from { opacity: 0.6; } to { opacity: 1; transform: scale(1.1); } }
-        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
 
+        /* АНИМАЦИИ */
+        @keyframes pulse-red {
+            from {
+                filter: drop-shadow(0 0 5px var(--red));
+            }
+
+            to {
+                filter: drop-shadow(0 0 15px var(--red));
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes pulse-blue {
+            from {
+                opacity: 0.6;
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+            }
+
+            100% {
+                transform: translate(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -166,7 +262,7 @@
                 <img src="photos/logo.png" alt="LOGO">
                 <div class="panel-title" style="color: var(--blue); letter-spacing: 2px;">MODULE: SKIN_INJECTOR</div>
             </div>
-            
+
             <span class="label">TARGET_MODEL</span>
             <select id="weapon" onchange="updateId()">
                 <option value="7" data-hex="0x192">Karambit | 007</option>
@@ -193,40 +289,72 @@
 
     <script>
         function updateId() {
-            const weapon = document.getElementById('weapon');
-            const skin = document.getElementById('skin').value;
-            const hex = weapon.options[weapon.selectedIndex].getAttribute('data-hex');
-            document.getElementById('packet-id').innerText = `${skin}:${hex}`;
+        const weapon = document.getElementById('weapon');
+        const skin = document.getElementById('skin').value;
+        const hex = weapon.options[weapon.selectedIndex].getAttribute('data-hex');
+        document.getElementById('packet-id').innerText = `${skin}:${hex}`;
         }
 
         function runExecution() {
-            const consoleBox = document.getElementById('console');
-            const logs = [
-                "> Инициализация дескриптора процесса...",
-                "> Поиск сигнатуры dwEntityList...",
-                "> [УСПЕХ] Область памяти найдена.",
-                "> <span style='color: var(--red)'>ЗАПИСЬ ПАКЕТА В СТЕК... ВЫПОЛНЕНО.</span>",
-                "> Принудительное обновление ViewModel..."
-            ];
-            
-            logs.forEach((text, i) => {
-                setTimeout(() => {
-                    const div = document.createElement('div');
-                    div.innerHTML = text;
-                    consoleBox.appendChild(div);
-                    consoleBox.scrollTop = consoleBox.scrollHeight;
-                }, i * 300);
-            });
+        const consoleBox = document.getElementById('console');
+        const logs = [
+        "> Инициализация дескриптора процесса...",
+        "> Поиск сигнатуры dwEntityList...",
+        "> [УСПЕХ] Область памяти найдена.",
+        "> <span style='color: var(--red)'>ЗАПИСЬ ПАКЕТА В СТЕК... ВЫПОЛНЕНО.</span>",
+        "> Принудительное обновление ViewModel..."
+        ];
+
+        logs.forEach((text, i) => {
+        setTimeout(() => {
+        const div = document.createElement('div');
+        div.innerHTML = text;
+        consoleBox.appendChild(div);
+        consoleBox.scrollTop = consoleBox.scrollHeight;
+        }, i * 300);
+        });
         }
+
+        // КРУТОЙ ПЕРЕХОД
         document.querySelectorAll('a').forEach(link => {
-            link.onclick = (e) => {
-                const href = link.getAttribute('href');
-                if (href && href.includes('.html') && !link.classList.contains('active')) {
-                    e.preventDefault();
-                    document.getElementById('transition-layer').classList.add('active');
-                    setTimeout(() => { window.location.href = href; }, 600);
-                }
-            };
+        link.onclick = (e) => {
+        const href = link.getAttribute('href');
+        if (href && href.includes('.html') && !link.classList.contains('active')) {
+        e.preventDefault();
+        document.getElementById('transition-layer').classList.add('active');
+        setTimeout(() => { window.location.href = href; }, 600);
+        }
+        };
+        });
+    </script>
+    <script>
+        // Функция для обновления отображения ID (уже есть в твоем коде)
+        function updateSkinID() {
+        const select = document.getElementById('skin-select');
+        const display = document.getElementById('skin-id-display');
+        const skinId = select.value;
+        const hexId = "0x" + parseInt(skinId).toString(16).toUpperCase();
+        display.innerText = `${skinId} : ${hexId}`;
+        }
+
+        // ЛОГИКА ДЛЯ СВЯЗИ С C# ПРОГРАММОЙ
+        document.addEventListener('DOMContentLoaded', () => {
+        // Находим твою кнопку "ИНЪЕКЦИЯ СКИНА"
+        const injectBtn = document.querySelector('.btn-primary');
+
+        injectBtn.addEventListener('click', () => {
+        const skinId = document.getElementById('skin-select').value;
+
+        // Копируем ID в буфер обмена для C# приложения
+        navigator.clipboard.writeText(skinId).then(() => {
+        // Добавляем запись в твой лог справа
+        const logContainer = document.querySelector('.console-content');
+        const newLog = document.createElement('div');
+        newLog.innerHTML = `<span style="color: #00ff00;">[УСПЕХ]</span> ID ${skinId} отправлен в буфер. Ожидайте записи в CS2...`;
+        logContainer.appendChild(newLog);
+        logContainer.scrollTop = logContainer.scrollHeight;
+        });
+        });
         });
     </script>
 </body>
